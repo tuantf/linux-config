@@ -40,9 +40,6 @@ zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::archlinux
 zinit snippet OMZP::command-not-found
-zinit snippet OMZP::gem
-zinit snippet OMZP::rails
-zinit snippet OMZP::asdf
 
 # Load completions
 autoload -Uz compinit && compinit
@@ -78,12 +75,11 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias ls='ls --color=auto'
+alias ls='eza -a --icons=always --color=always'
 alias nivm='nvim'
 alias nv='nvim'
 alias vim='nvim'
 alias c='clear'
-alias neofetch='neofetch --source ~/.config/neofetch/arch_ascii'
 
 # Shell integrations
 eval "$(fzf --zsh)"
