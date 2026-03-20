@@ -97,6 +97,8 @@ clear
 bootstrap_banner
 
 sudo sed -i "s/ParallelDownloads.*/ParallelDownloads = 10\nILoveCandy/" /etc/pacman.conf
+sudo sed -i "s/#Color/Color/" /etc/pacman.conf
+sudo sed -i "s/#DisableSandbox/DisableSandbox/" /etc/pacman.conf
 echo -e "${GRN}  ✓ Pacman configured (ParallelDownloads + ILoveCandy)${NC}"
 
 echo ""
@@ -144,12 +146,18 @@ vspin "System Packages" "Installing system packages" bash -c \
    sudo pacman -S --noconfirm tree unzip postgresql postgresql-libs wget libffi openssl zlib openssh curl'
 success "All packages installed"
 
-vspin "System Packages" "Automatic mirror selection" \
-  sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-success "Mirror list updated"
+vspin "System Packages" "Reflector: config, timer, mirror refresh" \
+  bash -c \
+    'sudo sed -i "s/# --country.*/--country SG,HK,VN/" /etc/xdg/reflector/reflector.conf && \
+     sudo sed -i "s/--latest 5/--latest 10/" /etc/xdg/reflector/reflector.conf && \
+     sudo sed -i "s/--sort age/--sort rate/" /etc/xdg/reflector/reflector.conf && \
+     sudo systemctl enable --now reflector.timer && \
+     sudo systemctl start reflector.service'
+success "Reflector configured, mirrorlist refreshed, timer enabled and running"
 
-task "Starting paccache.timer (weekly cleanup)" \
-  sudo systemctl start paccache.timer
+vspin "System Packages" "Paccache: weekly cleanup" \
+  bash -c 'sudo systemctl enable --now paccache.timer && sudo systemctl start paccache.timer'
+success "Paccache: weekly cleanup enabled and running"
 
 # ── Git Config ───────────────────────────────────────────────────
 section "Git Configuration"
