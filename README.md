@@ -9,7 +9,7 @@ Personal dotfiles and shell/editor configuration for Linux, kept under `~/.confi
 | `zsh/.zshrc` | Zsh startup — link to `~/.zshrc` (see below) |
 | `omp/.conf.omp.toml` | [Oh My Posh](https://ohmyposh.dev/) theme |
 | `nvim/` | Neovim config (LazyVim-style layout) |
-| `.f.i.s.h` | Arch Linux fast-install bootstrap (optional) |
+| `.fi.sh` | Arch Linux fast-install bootstrap (optional) |
 
 ## Using this repo manually
 
@@ -21,9 +21,9 @@ ln -sf ~/.config/zsh/.zshrc ~/.zshrc
 
 Ensure [Oh My Posh](https://ohmyposh.dev/) is installed and that your `~/.zshrc` references the theme path under this repo.
 
-## Arch bootstrap: `.f.i.s.h`
+## Arch bootstrap: `.fi.sh`
 
-The installer is literally named **`f` · `i` · `s` · `h`** (dots in `.f.i.s.h`). It is **Bash**, not the [Fish](https://fishshell.com/) shell — the name is a souvenir from “fast install script,” stretched one letter for the road.
+The installer is literally named **`f` · `i` · `s` · `h`** (dots in `.fi.sh`). It is **Bash**, not the [Fish](https://fishshell.com/) shell — the name is a souvenir from “fast install script,” stretched one letter for the road.
 
 When you run it, expect **real fish** (emoji + a tiny ASCII pilchard) and **no** `fish` binary unless you install that yourself.
 
@@ -34,16 +34,16 @@ When you run it, expect **real fish** (emoji + a tiny ASCII pilchard) and **no**
 **Run:**
 
 ```bash
-bash ~/.config/.f.i.s.h
+bash ~/.config/.fi.sh
 # or after copying the script somewhere:
-bash ./.f.i.s.h
+bash ./.fi.sh
 ```
 
 On success it offers to `exec zsh` and deletes **this script file** (whatever path you ran) when finished.
 
-**Syntax:** Validated with `bash -n` (no parse errors). For extra linting, install [ShellCheck](https://www.shellcheck.net/) and run `shellcheck .f.i.s.h`.
+**Syntax:** Validated with `bash -n` (no parse errors). For extra linting, install [ShellCheck](https://www.shellcheck.net/) and run `shellcheck .fi.sh`.
 
 ---
 
-*Version in script: see `fish_version` in `.f.i.s.h`.*
-Use at your own risk
+*Version in script: see `fish_version` in `.fi.sh`.*
+*Use at your own risk!*
