@@ -24,7 +24,8 @@ section() {
 }
 
 task() {
-  local title="$1"; shift
+  local title="$1"
+  shift
   if gum spin --spinner dot --title "$title" -- "$@"; then
     gum style --foreground "$OK" "✓ $title"
   else
@@ -53,8 +54,10 @@ EOF
 }
 
 vspin() {
-  local sec="$1"; shift
-  local title="$1"; shift
+  local sec="$1"
+  shift
+  local title="$1"
+  shift
   if gum spin --show-output --spinner dot --title "$title" -- "$@"; then
     printf '\033[2J\033[H'
     main_banner
@@ -143,12 +146,12 @@ section "System Packages"
 step "Installing packages"
 vspin "System Packages" "Installing system packages" bash -c \
   'sudo pacman -S --noconfirm base-devel zsh pacman-contrib man-db git neovim fzf zoxide go eza reflector && \
-   sudo pacman -S --noconfirm tree unzip postgresql postgresql-libs wget libffi openssl zlib openssh curl'
+   sudo pacman -S --noconfirm tree unzip postgresql postgresql-libs wget libffi openssl zlib openssh curl lua'
 success "All packages installed"
 
 vspin "System Packages" "Reflector: config, timer, mirror refresh" \
   bash -c \
-    'sudo sed -i "s/# --country.*/--country SG,HK,VN/" /etc/xdg/reflector/reflector.conf && \
+  'sudo sed -i "s/# --country.*/--country SG,HK,VN/" /etc/xdg/reflector/reflector.conf && \
      sudo sed -i "s/--latest 5/--latest 10/" /etc/xdg/reflector/reflector.conf && \
      sudo sed -i "s/--sort age/--sort rate/" /etc/xdg/reflector/reflector.conf && \
      sudo systemctl enable --now reflector.timer && \
