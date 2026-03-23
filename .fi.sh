@@ -1,15 +1,15 @@
 #!/bin/bash
-# F·I·S·H — Fast Install Script Helper (Bash, not fish-shell)
-fish_version="2.5.0"
+# F·I·S·H — Fast Install Script Helper (Bash)
+fish_version="2.5.5"
 set -e
 
-# Rams-ish palette: warm neutrals + Braun-style orange accent
-ORANGE="#ff5000"
-INK="#252525"
-STONE="#6B6B6B"
-CREAM="#F5F2EB"
-OK="#22C55E"
-ERR="#B8483A"
+# Rams-ish palette
+ORANGE="#f1833f"
+INK="#1d1d1d"
+STONE="#595959"
+CREAM="#dddede"
+OK="#80b68a"
+ERR="#ea6962"
 # Plain-text bootstrap (before gum): bright green ✓ lines
 GRN='\033[1;32m'
 NC='\033[0m'
@@ -17,8 +17,8 @@ NC='\033[0m'
 # ── Gum Wrappers (used after gum is installed) ──────────────────
 section() {
   echo ""
-  gum style --border-foreground "$ORANGE" --foreground "$INK" \
-    --background "$CREAM" \
+  gum style --border-foreground "$ORANGE" --foreground "$CREAM" \
+    --background "$ORANGE" \
     --bold --padding "0 2" --margin "0 2" "$1"
   echo ""
 }
@@ -37,20 +37,12 @@ task() {
 # After any gum spin --show-output: wipe TUI residue, redraw hero + section.
 main_banner() {
   echo ""
-  echo "  🐟  🐠  🐡  —  the gang's all here (real fish, fake fish-shell)"
-  echo ""
-  cat <<'EOF'
-       __o_
-    _-` <° )>
-       ‾‾‾‾
-EOF
-  echo ""
-  gum style --border double --border-foreground "$ORANGE" --foreground "$INK" \
-    --background "$CREAM" \
+  gum style --border single --border-foreground "$ORANGE" --foreground "$CREAM" \
+    --background "$ORANGE" \
     --bold --padding "1 3" --margin "0 2" --align center \
-    "╋  f · i · s · h" "" \
-    "Fast Install Script v${fish_version}" \
-    "Arch Linux bootstrap · Bash inside"
+    "f · i · s · h 🐟 🐠 🐡 ><>" "" \
+    "Fast Install Script Helper v${fish_version}" \
+    "Arch Linux bootstrap"
 }
 
 vspin() {
@@ -83,10 +75,21 @@ success() {
   gum style --foreground "$OK" "✓ $1"
 }
 
+# Must match https://fnm.vercel.app/install (INSTALL_DIR resolution)
+fnm_install_dir() {
+  if [ -d "$HOME/.fnm" ]; then
+    printf '%s\n' "$HOME/.fnm"
+  elif [ -n "${XDG_DATA_HOME:-}" ]; then
+    printf '%s\n' "$XDG_DATA_HOME/fnm"
+  else
+    printf '%s\n' "$HOME/.local/share/fnm"
+  fi
+}
+
 # ── Pre-Gum Bootstrap (plain bash, gum not yet available) ───────
 bootstrap_banner() {
   echo ""
-  echo "  ╋  f · i · s · h  v${fish_version}"
+  echo "  f · i · s · h 🐟 🐠 🐡 ><> v${fish_version}"
   echo "  Fast Install Script Helper for Arch Linux"
   echo "  --------------------------------------------"
   echo "  Author: https://github.com/tuantf"
@@ -96,8 +99,26 @@ bootstrap_banner() {
   echo ""
 }
 
+bootstrap_confirm() {
+  echo "  This will change pacman settings, run a full system upgrade,"
+  echo "  and install packages and dev tooling. Use only on a machine"
+  echo "  you mean to configure with this script."
+  echo ""
+  local reply
+  read -rp "  Proceed? [y/N] " reply || exit 1
+  case "${reply,,}" in
+    y|yes) ;;
+    *)
+      echo "  Aborted."
+      exit 1
+      ;;
+  esac
+  echo ""
+}
+
 clear
 bootstrap_banner
+bootstrap_confirm
 
 sudo sed -i "s/ParallelDownloads.*/ParallelDownloads = 10\nILoveCandy/" /etc/pacman.conf
 sudo sed -i "s/#Color/Color/" /etc/pacman.conf
@@ -185,11 +206,11 @@ vspin "Developer Tools" "Installing fnm (Fast Node Manager)" \
   bash -c 'curl -o- https://fnm.vercel.app/install | bash'
 success "fnm installed"
 
-export PATH="$HOME/.local/share/fnm:$PATH"
+export PATH="$(fnm_install_dir):$PATH"
 eval "$(fnm env 2>/dev/null)" 2>/dev/null || true
 
 vspin "Developer Tools" "Installing Node.js 24 via fnm" \
-  bash -c 'export PATH="$HOME/.local/share/fnm:$PATH" && eval "$(fnm env)" && fnm install 24 && fnm use 24'
+  bash -c 'export PATH="'"$(fnm_install_dir)"':$PATH" && eval "$(fnm env)" && fnm install --progress never 24 && fnm use 24'
 eval "$(fnm env 2>/dev/null)" 2>/dev/null || true
 success "Node.js $(node -v 2>/dev/null || echo 'v24') and npm $(npm -v 2>/dev/null || echo 'n/a') installed"
 
