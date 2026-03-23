@@ -1,6 +1,6 @@
 #!/bin/bash
 # F·I·S·H — Fast Install Script Helper (Bash)
-fish_version="2.5.5"
+fish_version="2.5.6"
 set -e
 
 # Rams-ish palette
@@ -166,8 +166,8 @@ section "System Packages"
 
 step "Installing packages"
 vspin "System Packages" "Installing system packages" bash -c \
-  'sudo pacman -S --noconfirm base-devel zsh pacman-contrib man-db git neovim fzf zoxide go eza reflector && \
-   sudo pacman -S --noconfirm tree unzip postgresql postgresql-libs wget libffi openssl zlib openssh curl lua'
+  'sudo pacman -S --noconfirm --needed base-devel zsh pacman-contrib man-db git neovim fzf zoxide go eza reflector && \
+   sudo pacman -S --noconfirm --needed tree unzip postgresql postgresql-libs wget libffi openssl zlib openssh curl lua'
 success "All packages installed"
 
 vspin "System Packages" "Reflector: config, timer, mirror refresh" \
