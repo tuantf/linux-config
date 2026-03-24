@@ -37,7 +37,7 @@ task() {
 # After any gum spin --show-output: wipe TUI residue, redraw hero + section.
 main_banner() {
   echo ""
-  gum style --border single --border-foreground "$ORANGE" --foreground "$CREAM" \
+  gum style --border normal --border-foreground "$ORANGE" --foreground "$CREAM" \
     --background "$ORANGE" \
     --bold --padding "1 3" --margin "0 2" --align center \
     "f · i · s · h 🐟 🐠 🐡 ><>" "" \
