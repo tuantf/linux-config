@@ -27,9 +27,10 @@ Personal dotfiles repository for Linux configuration, designed to be cloned into
 ### Arch Bootstrap Script (`.fi.sh`)
 - Bash script (not fish-shell) for fresh Arch Linux setup
 - Uses `gum` for TUI elements after initial bootstrap
-- Performs: pacman config, reflector, package installation, git identity setup, dev tooling (fnm, bun, oh-my-posh), and re-clones this repo into `~/.config`
+- Performs: pacman config, reflector, package installation, git identity setup, dev tooling (fnm binary, bun, oh-my-posh), and re-clones this repo into `~/.config`
+- **Node.js**: not installed in `.fi.sh`; after clone, optionally run [`~/.config/.fi.temp.sh`](.fi.temp.sh) with **zsh** (`fnm install` + default version). Same file lives in-repo as [`.fi.temp.sh`](.fi.temp.sh).
 - **Destructive**: removes existing `~/.config` before cloning
-- Lint with: `bash -n .fi.sh` or `shellcheck .fi.sh`
+- Lint with: `bash -n .fi.sh` or `shellcheck .fi.sh`; `zsh -n .fi.temp.sh` for the zsh helper
 
 ## Symlink Setup
 
