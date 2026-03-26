@@ -1,6 +1,6 @@
 #!/bin/bash
 # F·I·S·H — Fast Install Script Helper (Bash)
-fish_version="2.5.6"
+fish_version="2.5.8"
 set -e
 
 # Rams-ish palette
@@ -207,12 +207,6 @@ vspin "Developer Tools" "Installing fnm (Fast Node Manager)" \
 success "fnm installed"
 
 export PATH="$(fnm_install_dir):$PATH"
-eval "$(fnm env 2>/dev/null)" 2>/dev/null || true
-
-vspin "Developer Tools" "Installing Node.js 24 via fnm" \
-  bash -c 'export PATH="'"$(fnm_install_dir)"':$PATH" && eval "$(fnm env)" && fnm install --progress never 24 && fnm use 24'
-eval "$(fnm env 2>/dev/null)" 2>/dev/null || true
-success "Node.js $(node -v 2>/dev/null || echo 'v24') and npm $(npm -v 2>/dev/null || echo 'n/a') installed"
 
 vspin "Developer Tools" "Installing bun" \
   bash -c 'curl -fsSL https://bun.sh/install | bash'
@@ -238,6 +232,16 @@ task "Cloning config repo → ~/.config" \
 
 task "Linking .zshrc" \
   bash -c 'rm -f ~/.zshrc && ln -s ~/.config/zsh/.zshrc ~/.zshrc'
+
+info "Node.js: run later with: zsh ~/.config/.fi.temp.sh (or confirm below)"
+if gum confirm "Install Node.js 24 via fnm now (~/.config/.fi.temp.sh)?"; then
+  zsh ~/.config/.fi.temp.sh
+  export PATH="$(fnm_install_dir):$PATH"
+  eval "$(fnm env 2>/dev/null)" 2>/dev/null || true
+  success "Node.js $(node -v 2>/dev/null || echo 'v24') and npm $(npm -v 2>/dev/null || echo 'n/a') ready"
+else
+  info "Skipped — run when ready: zsh ~/.config/.fi.temp.sh"
+fi
 
 # ── Programming Languages ─────────────────────────────────────────
 section "Programming Languages"
