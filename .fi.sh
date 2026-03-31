@@ -75,17 +75,6 @@ success() {
   gum style --foreground "$OK" "✓ $1"
 }
 
-# Must match https://fnm.vercel.app/install (INSTALL_DIR resolution)
-fnm_install_dir() {
-  if [ -d "$HOME/.fnm" ]; then
-    printf '%s\n' "$HOME/.fnm"
-  elif [ -n "${XDG_DATA_HOME:-}" ]; then
-    printf '%s\n' "$XDG_DATA_HOME/fnm"
-  else
-    printf '%s\n' "$HOME/.local/share/fnm"
-  fi
-}
-
 # ── Pre-Gum Bootstrap (plain bash, gum not yet available) ───────
 bootstrap_banner() {
   echo ""
@@ -202,12 +191,6 @@ vspin "Developer Tools" "Installing oh-my-posh" \
   bash -c 'curl -s https://ohmyposh.dev/install.sh | bash -s'
 success "oh-my-posh installed"
 
-vspin "Developer Tools" "Installing fnm (Fast Node Manager)" \
-  bash -c 'curl -o- https://fnm.vercel.app/install | bash'
-success "fnm installed"
-
-export PATH="$(fnm_install_dir):$PATH"
-
 vspin "Developer Tools" "Installing bun" \
   bash -c 'curl -fsSL https://bun.sh/install | bash'
 export PATH="$HOME/.bun/bin:$PATH"
@@ -233,16 +216,6 @@ task "Cloning config repo → ~/.config" \
 task "Linking .zshrc" \
   bash -c 'rm -f ~/.zshrc && ln -s ~/.config/zsh/.zshrc ~/.zshrc'
 
-info "Node.js: run later with: zsh ~/.config/.fi.temp.sh (or confirm below)"
-if gum confirm "Install Node.js 24 via fnm now (~/.config/.fi.temp.sh)?"; then
-  zsh ~/.config/.fi.temp.sh
-  export PATH="$(fnm_install_dir):$PATH"
-  eval "$(fnm env 2>/dev/null)" 2>/dev/null || true
-  success "Node.js $(node -v 2>/dev/null || echo 'v24') and npm $(npm -v 2>/dev/null || echo 'n/a') ready"
-else
-  info "Skipped — run when ready: zsh ~/.config/.fi.temp.sh"
-fi
-
 # ── Programming Languages ─────────────────────────────────────────
 section "Programming Languages"
 
@@ -253,6 +226,12 @@ success "$(python -V 2>/dev/null || echo 'Python') installed"
 vspin "Programming Languages" "Installing Rust" \
   bash -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
 success "Rust installed"
+
+echo ""
+gum style --border normal --border-foreground "$STONE" --foreground "$INK" \
+  --bold --padding "0 2" --margin "0 2" \
+  "Note: Node.js was not installed." \
+  "Install it manually: fnm, nvm, or sudo pacman -S nodejs npm"
 
 # ── Done ─────────────────────────────────────────────────────────
 echo ""
