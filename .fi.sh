@@ -1,11 +1,11 @@
 #!/bin/bash
 # F·I·S·H — Fast Install Script Helper (Bash)
-fish_version="2.5.8"
+fish_version="2.6.0"
 set -e
 
 # Rams-ish palette
 ORANGE="#f1833f"
-INK="#1d1d1d"
+INK="#0d0d0d"
 STONE="#595959"
 CREAM="#dddede"
 OK="#80b68a"
@@ -195,17 +195,6 @@ vspin "Developer Tools" "Installing bun" \
   bash -c 'curl -fsSL https://bun.sh/install | bash'
 export PATH="$HOME/.bun/bin:$PATH"
 success "bun $(bun -v 2>/dev/null || echo '') installed"
-
-# ── AI Tools ────────────────────────────────────────────
-section "AI Tools"
-
-vspin "AI Tools" "Installing Claude Code" \
-  bash -c 'curl -fsSL https://claude.ai/install.sh | bash && git clone https://github.com/tuantf/claude-code.git ~/.claude'
-success "Claude Code installed"
-
-vspin "AI Tools" "Installing OpenCode" \
-  bash -c 'curl -fsSL https://opencode.ai/install | bash'
-success "OpenCode installed"
 
 # ── Config Files ─────────────────────────────────────────────────
 section "Config Files"
