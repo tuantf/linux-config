@@ -10,7 +10,6 @@ Personal dotfiles and shell/editor configuration for Linux, kept under `~/.confi
 | `omp/.conf.omp.toml` | [Oh My Posh](https://ohmyposh.dev/) theme    |
 | `nvim/`              | Neovim config (LazyVim-style layout)         |
 | `.fi.sh`             | Arch Linux fast-install bootstrap (optional) |
-| `.fi.temp.sh`       | Second phase: install Node via fnm (zsh)     |
 
 ## Using this repo manually
 
@@ -28,7 +27,7 @@ The installer is literally named **`f` · `i` · `s` · `h`** (dots in `.fi.sh`)
 
 When you run it, expect **real fish** (emoji + a tiny ASCII pilchard) and **no** `fish` binary unless you install that yourself.
 
-**`f·i·s·h` (Fast Install Script Helper)** automates a fresh Arch setup: pacman tuning, `gum` UI, packages, `reflector`, git identity, dev tooling (oh-my-posh, **fnm**, bun), AI CLI installers, Python/Rust, and a **destructive** re-clone of this repo into `~/.config` (it removes an existing `~/.config` first). It installs the **fnm** binary only; **Node.js** is installed in a second step via [`~/.config/.fi.temp.sh`](.fi.temp.sh) (the script offers to run it after cloning, or you can run `zsh ~/.config/.fi.temp.sh` later).
+**`f·i·s·h` (Fast Install Script Helper)** automates a fresh Arch setup: pacman tuning, `gum` UI, packages, `reflector`, git identity, dev tooling (oh-my-posh, bun), AI CLI installers, Python/Rust, and a **destructive** re-clone of this repo into `~/.config` (it removes an existing `~/.config` first). **Node.js is not installed** — add it manually after the script finishes (fnm, nvm, or `sudo pacman -S nodejs npm`).
 
 **Requirements:** Arch Linux with `sudo` and network; run as your normal user (not root). Review the script before running — it encodes personal git name/email and remote URLs.
 
