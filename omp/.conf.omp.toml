@@ -18,7 +18,7 @@ console_title_template = "{{ .Shell }} in {{ .Folder }}"
       #]
     foreground = "green"
     background = "transparent"
-    template = "{{.UserName}}{{if .SSHSession}} \ueba9 {{else}} @ {{end}}{{.HostName}}"
+    template = "{{.UserName}}{{if .SSHSession}} # {{else}} @ {{end}}{{.HostName}}"
 
   [[blocks.segments]]
     type = "executiontime"
