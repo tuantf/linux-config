@@ -200,7 +200,7 @@ success "bun $(bun -v 2>/dev/null || echo '') installed"
 section "Config Files"
 
 task "Cloning config repo → ~/.config" \
-  bash -c 'cd && rm -rf ~/.config && git clone https://github.com/tuantf/linux-config.git ~/.config'
+  bash -c 'cd && rm -rf ~/.config && git clone https://github.com/tuanxtm/linux-config.git ~/.config'
 
 task "Linking .zshrc" \
   bash -c 'rm -f ~/.zshrc && ln -s ~/.config/zsh/.zshrc ~/.zshrc'
